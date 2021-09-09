@@ -1,0 +1,7 @@
+/.idea/
+/anatel-service-protocol.iml
+.settings/
+.project
+.classpath
+/target
+.factorypath
