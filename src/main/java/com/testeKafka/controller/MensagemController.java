@@ -35,4 +35,10 @@ public class MensagemController {
         List<Mensagem> listaMensagem= mensagemService.getMensagem();
         return ResponseEntity.ok(listaMensagem);
     }
+
+    @GetMapping("/kafka_mensagens")
+    public ResponseEntity<List<Mensagem>> kafkaMensagem()  {
+        List<Mensagem> listaMensagem= mensagemService.listnerKafka();
+        return ResponseEntity.ok(listaMensagem);
+    }
 }

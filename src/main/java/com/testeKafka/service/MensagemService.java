@@ -2,13 +2,19 @@ package com.testeKafka.service;
 
 import com.testeKafka.model.Mensagem;
 import com.testeKafka.repository.MensagemRepository;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
@@ -28,6 +34,13 @@ public class MensagemService implements MensagemInterface{
     public List<Mensagem> getMensagem() {
         return mensagemRepository.findAll();
     }
+
+    @Override
+    public List<Mensagem> listnerKafka() {
+        List<Mensagem> retornoListner = RecebeMSG();
+        return retornoListner;
+    }
+
     private void EnviaMSG(Mensagem mensagem) throws ExecutionException, InterruptedException {
 
         var producer = new KafkaProducer<String,String>(propertiesEnvio());
@@ -54,6 +67,39 @@ public class MensagemService implements MensagemInterface{
         properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 
+        return properties;
+    }
+
+
+    private List<Mensagem> RecebeMSG() {
+
+        var consumer = new KafkaConsumer<String,String>(propertiesListner());
+        consumer.subscribe(Collections.singletonList("Topico_De_Teste"));
+        var records = consumer.poll(Duration.ofMillis(100));
+        if(records.isEmpty()){
+            List<Mensagem> listMensagens = new ArrayList<>();
+            Mensagem msgErro= new Mensagem();
+            msgErro.setTextoMensagem("ERRO: Nenhuma msg encontrada");
+            listMensagens.add(msgErro);
+            return listMensagens;
+        }else {
+            List<Mensagem> listMensagensRecebbidas = new ArrayList<>();
+            for (var record : records) {
+                Mensagem msgRecebida = new Mensagem();
+                msgRecebida.setTextoMensagem(record.value());
+                msgRecebida.setIdMensagem(record.key());
+
+            }
+            return listMensagensRecebbidas;
+        }
+    }
+
+    private static Properties propertiesListner(){
+        var properties = new Properties();
+        properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,"127.0.0.1:9092");
+        properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG,Mensagem.class.getSimpleName());
         return properties;
     }
 
