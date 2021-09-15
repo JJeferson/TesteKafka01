@@ -2,7 +2,7 @@
 Implementação de teste com Kafka</br>
 Projeto criado para estudo e testes com Kafka</br>
 </br></br>
-REcursos que estarão disponiveis: </br>
+Recursos que estarão disponiveis: </br>
 -Envio de msg </br>
 -Recebe Msg </br>
 -Histórico de msg's no mongo </br>
