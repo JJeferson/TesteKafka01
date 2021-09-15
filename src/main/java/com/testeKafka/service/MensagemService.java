@@ -11,26 +11,37 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 
 @Service
 public class MensagemService implements MensagemInterface{
     @Autowired
     MensagemRepository mensagemRepository;
     @Override
-    public Mensagem SaveMensagem(Mensagem mensagem) {
+    public Mensagem SaveMensagem(Mensagem mensagem) throws ExecutionException, InterruptedException {
         Mensagem mensagemSalva = mensagemRepository.save(mensagem);
-
-        var producer = new KafkaProducer<String,String>(properties());
-        var record = new ProducerRecord<String,String>("Topico_De_Teste",
-                     mensagemSalva.getIdMensagem(),mensagemSalva.getTextoMensagem());
-
-        producer.send(record);
+        EnviaMSG(mensagemSalva);
         return mensagemSalva;
     }
 
     @Override
     public List<Mensagem> getMensagem() {
         return mensagemRepository.findAll();
+    }
+    private void EnviaMSG(Mensagem mensagem) throws ExecutionException, InterruptedException {
+
+        var producer = new KafkaProducer<String,String>(properties());
+        var record = new ProducerRecord<>("Topico_De_Teste",
+                mensagem.getIdMensagem(),mensagem.getTextoMensagem());
+
+        producer.send(record,(data,ex) -> {
+            if(ex != null){
+
+            }
+            System.out.println("Mensagem Enviada | Partição:"+data.partition()+" | OffSet:"+data.offset()+" | DataHora:"+data.timestamp());
+
+        }).get();
+
     }
 
     private static Properties properties(){

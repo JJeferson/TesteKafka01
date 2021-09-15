@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 public class MensagemController {
@@ -23,8 +24,7 @@ public class MensagemController {
     @Transactional
     @CacheEvict(value = "/nova_mensagem", allEntries = true)
     @PostMapping("/nova_mensagem")
-    public ResponseEntity<Mensagem> novaMSG(@RequestBody Mensagem mensagem)
-    {
+    public ResponseEntity<Mensagem> novaMSG(@RequestBody Mensagem mensagem) throws ExecutionException, InterruptedException {
         Mensagem mensagemEnviada = mensagemService.SaveMensagem(mensagem);
         return ResponseEntity.ok(mensagemEnviada);
     }
