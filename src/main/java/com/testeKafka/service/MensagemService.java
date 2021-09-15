@@ -36,10 +36,14 @@ public class MensagemService implements MensagemInterface{
 
         producer.send(record,(data,ex) -> {
             if(ex != null){
-
+            ex.printStackTrace();
+                System.out.println("----------------------------------");
+                System.out.println("ERRO");
+                System.out.println("----------------------------------");
             }
+            System.out.println("----------------------------------");
             System.out.println("Mensagem Enviada | Partição:"+data.partition()+" | OffSet:"+data.offset()+" | DataHora:"+data.timestamp());
-
+            System.out.println("----------------------------------");
         }).get();
 
     }
