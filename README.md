@@ -23,4 +23,4 @@ Comando: docker pull bitnami/kafka </br>
 docker-compose up </br>
 </br>
 No docker vai subir uma instancia do kafka </br>
-<img src="docker_kafka.png"> </br>
+<img src="docker_kafka1.png"> </br>
