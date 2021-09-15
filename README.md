@@ -20,7 +20,7 @@ Comando: docker pull bitnami/kafka </br>
 (https://hub.docker.com/r/bitnami/kafka/) </br>
  </br>
 -Acessar via cmd a pasta do projeto e rodar:  </br>
-docker-compose up </br>
+docker-compose up -d </br>
 </br>
 No docker vai subir uma instancia do kafka </br>
 <img src="docker_kafka1.png"> </br>
