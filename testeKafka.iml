@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
+<<<<<<< HEAD
     <facet type="web" name="Web">
       <configuration>
         <webroots />
@@ -9,6 +10,10 @@
           <root url="file://$MODULE_DIR$/src/main/resources" />
         </sourceRoots>
       </configuration>
+=======
+    <facet type="Spring" name="Spring">
+      <configuration />
+>>>>>>> origin/main
     </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_11">
