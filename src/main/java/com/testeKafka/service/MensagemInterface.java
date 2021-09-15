@@ -10,5 +10,5 @@ public interface MensagemInterface {
     Mensagem SaveMensagem (Mensagem mensagem) throws ExecutionException, InterruptedException;
     List<Mensagem> getMensagem();
     List<Mensagem> listnerKafka() throws ExecutionException, InterruptedException;
-
+    void HouvinteMensagem();
 }

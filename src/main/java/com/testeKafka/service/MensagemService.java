@@ -41,6 +41,35 @@ public class MensagemService implements MensagemInterface{
         return retornoListner;
     }
 
+    @Override
+    public void HouvinteMensagem() {
+
+        Boolean teste = true;
+        var consumer = new KafkaConsumer<String,String>(propertiesListner());
+        consumer.subscribe(Collections.singletonList("Topico_De_Teste"));
+        while(teste.equals(true)) {
+        var records = consumer.poll(Duration.ofMillis(100));
+            if (records.isEmpty()) {
+                System.out.println("----------------------------------");
+                System.out.println("Nada encontrado.");
+                System.out.println("----------------------------------");
+
+                }
+            else{
+                for (var record : records) {
+                    Mensagem msgRecebida = new Mensagem();
+                    msgRecebida.setTextoMensagem("KAFKA_MSG: " + record.value());
+                    msgRecebida.setIdMensagem(record.key());
+
+                    //  Mensagem gravaMSGRecebida = SaveMensagem(msgRecebida);
+                    System.out.println("----------------------------------");
+                    System.out.println("NovaMSG Recebida e Gravada" + msgRecebida.getTextoMensagem());
+                    System.out.println("----------------------------------");
+                    }
+            }
+        }
+    }
+
     private void EnviaMSG(Mensagem mensagem) throws ExecutionException, InterruptedException {
 
         var producer = new KafkaProducer<String,String>(propertiesEnvio());
@@ -69,6 +98,7 @@ public class MensagemService implements MensagemInterface{
 
         return properties;
     }
+
 
 
     private List<Mensagem> RecebeMSG() {

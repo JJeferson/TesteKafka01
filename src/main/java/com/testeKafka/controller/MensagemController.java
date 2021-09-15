@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -34,6 +31,13 @@ public class MensagemController {
     {
         List<Mensagem> listaMensagem= mensagemService.getMensagem();
         return ResponseEntity.ok(listaMensagem);
+    }
+
+    @Transactional
+    @CacheEvict(value = "/inicia_houvinte", allEntries = true)
+    @PostMapping("/inicia_houvinte")
+    public ResponseEntity<String> inicia_Houvinte() {
+        return ResponseEntity.ok("Houvinte Iniciado.");
     }
 
     @GetMapping("/kafka_mensagens")
