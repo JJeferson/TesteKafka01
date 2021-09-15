@@ -8,7 +8,7 @@ REcursos que estarão disponiveis: </br>
 -Histórico de msg's no mongo </br>
 -Envia nova venda como msg (Json) </br>
 -Recebe a nova venda e grava como venda no mongo </br>
-
+ 
 </br>
 <h4>Requisitos</h4>
 *Java11  </br>
