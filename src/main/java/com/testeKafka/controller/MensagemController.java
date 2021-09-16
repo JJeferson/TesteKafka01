@@ -34,10 +34,10 @@ public class MensagemController {
     }
 
     @Transactional
-    @CacheEvict(value = "/inicia_houvinte", allEntries = true)
-    @PostMapping("/inicia_houvinte")
-    public ResponseEntity<String> inicia_Houvinte() {
-        mensagemService.HouvinteMensagem();
+    @CacheEvict(value = "/inicia_ouvinte", allEntries = true)
+    @PostMapping("/inicia_ouvinte")
+    public ResponseEntity<String> inicia_ouvinte() {
+        mensagemService.ouvinteMensagem();
         return ResponseEntity.ok("Houvinte Iniciado.");
     }
 

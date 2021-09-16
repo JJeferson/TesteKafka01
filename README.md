@@ -31,9 +31,9 @@ curl --location --request POST 'http://localhost:8080/nova_mensagem' \
     "textoMensagem":"Mensagem teste msg2"
 }'
 </br>
-[POST] Inicia Houvinte </br>
+[POST] Inicia ouvinte </br>
 </br>
-curl --location --request POST 'http://localhost:8080/inicia_houvinte'
+curl --location --request POST 'http://localhost:8080/inicia_ouvinte'
 </br>
 [GET] Lista Histórico de msg gravadas no mongo </br>
 </br>

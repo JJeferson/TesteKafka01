@@ -36,7 +36,7 @@ public class MensagemService implements MensagemInterface{
     }
 
     @Override
-    public void HouvinteMensagem() {
+    public void ouvinteMensagem() {
 
         Boolean teste = true;
         var consumer = new KafkaConsumer<String,String>(propertiesListner());

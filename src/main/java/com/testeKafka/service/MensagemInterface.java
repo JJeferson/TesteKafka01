@@ -9,5 +9,5 @@ import java.util.concurrent.ExecutionException;
 public interface MensagemInterface {
     Mensagem SaveMensagem (Mensagem mensagem) throws ExecutionException, InterruptedException;
     List<Mensagem> getMensagem();
-    void HouvinteMensagem();
+    void ouvinteMensagem();
 }
