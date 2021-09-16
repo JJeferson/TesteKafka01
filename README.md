@@ -23,8 +23,8 @@ docker-compose up -d </br>
 No docker vai subir uma instancia do kafka </br>
 <img src="docker_kafka1.png"> </br>
 </br></br>
+
 [POST] Nova MSG </br>
-</br>
 curl --location --request POST 'http://localhost:8080/nova_mensagem' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -32,10 +32,8 @@ curl --location --request POST 'http://localhost:8080/nova_mensagem' \
 }'
 </br>
 [POST] Inicia ouvinte </br>
-</br>
 curl --location --request POST 'http://localhost:8080/inicia_ouvinte'
 </br>
 [GET] Lista Histórico de msg gravadas no mongo </br>
-</br>
 curl --location --request GET 'http://localhost:8080/historico_de_mensagens'
 </br>
