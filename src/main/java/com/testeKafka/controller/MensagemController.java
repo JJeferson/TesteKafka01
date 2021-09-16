@@ -37,12 +37,8 @@ public class MensagemController {
     @CacheEvict(value = "/inicia_houvinte", allEntries = true)
     @PostMapping("/inicia_houvinte")
     public ResponseEntity<String> inicia_Houvinte() {
+        mensagemService.HouvinteMensagem();
         return ResponseEntity.ok("Houvinte Iniciado.");
     }
 
-    @GetMapping("/kafka_mensagens")
-    public ResponseEntity<List<Mensagem>> kafkaMensagem()  {
-        List<Mensagem> listaMensagem= mensagemService.listnerKafka();
-        return ResponseEntity.ok(listaMensagem);
-    }
 }

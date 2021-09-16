@@ -4,10 +4,8 @@ Projeto criado para estudo e testes com Kafka</br>
 </br></br>
 Recursos que estarão disponiveis: </br>
 -Envio de msg </br>
--Recebe Msg </br>
--Histórico de msg's no mongo </br>
--Envia nova venda como msg (Json) </br>
--Recebe a nova venda e grava como venda no mongo </br>
+-Recebe Msg (Houvinte)</br>
+-Histórico de msg's no mongo </br> 
  
 </br>
 <h4>Requisitos</h4>
@@ -24,3 +22,20 @@ docker-compose up -d </br>
 </br>
 No docker vai subir uma instancia do kafka </br>
 <img src="docker_kafka1.png"> </br>
+</br></br>
+[POST] Nova MSG </br>
+</br>
+curl --location --request POST 'http://localhost:8080/nova_mensagem' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "textoMensagem":"Mensagem teste msg2"
+}'
+</br>
+[POST] Inicia Houvinte </br>
+</br>
+curl --location --request POST 'http://localhost:8080/inicia_houvinte'
+</br>
+[GET] Lista Histórico de msg gravadas no mongo </br>
+</br>
+curl --location --request GET 'http://localhost:8080/historico_de_mensagens'
+</br>

@@ -36,12 +36,6 @@ public class MensagemService implements MensagemInterface{
     }
 
     @Override
-    public List<Mensagem> listnerKafka() {
-        List<Mensagem> retornoListner = RecebeMSG();
-        return retornoListner;
-    }
-
-    @Override
     public void HouvinteMensagem() {
 
         Boolean teste = true;
@@ -50,20 +44,21 @@ public class MensagemService implements MensagemInterface{
         while(teste.equals(true)) {
         var records = consumer.poll(Duration.ofMillis(100));
             if (records.isEmpty()) {
+                /*
                 System.out.println("----------------------------------");
                 System.out.println("Nada encontrado.");
                 System.out.println("----------------------------------");
-
+                 */
                 }
             else{
                 for (var record : records) {
                     Mensagem msgRecebida = new Mensagem();
-                    msgRecebida.setTextoMensagem("KAFKA_MSG: " + record.value());
+                    msgRecebida.setTextoMensagem("KAFKA_MSG Recebida: " + record.value());
                     msgRecebida.setIdMensagem(record.key());
 
-                    //  Mensagem gravaMSGRecebida = SaveMensagem(msgRecebida);
+                    mensagemRepository.save(msgRecebida);
                     System.out.println("----------------------------------");
-                    System.out.println("NovaMSG Recebida e Gravada" + msgRecebida.getTextoMensagem());
+                    System.out.println("Nova MSG Recebida e Gravada" + msgRecebida.getTextoMensagem());
                     System.out.println("----------------------------------");
                     }
             }
@@ -84,7 +79,7 @@ public class MensagemService implements MensagemInterface{
                 System.out.println("----------------------------------");
             }
             System.out.println("----------------------------------");
-            System.out.println("Mensagem Enviada | Partição:"+data.partition()+" | OffSet:"+data.offset()+" | DataHora:"+data.timestamp());
+            System.out.println("Mensagem Enviada:"+mensagem.getTextoMensagem()+"  | Partição:"+data.partition()+" | OffSet:"+data.offset()+" | DataHora:"+data.timestamp());
             System.out.println("----------------------------------");
         }).get();
 
@@ -99,30 +94,6 @@ public class MensagemService implements MensagemInterface{
         return properties;
     }
 
-
-
-    private List<Mensagem> RecebeMSG() {
-
-        var consumer = new KafkaConsumer<String,String>(propertiesListner());
-        consumer.subscribe(Collections.singletonList("Topico_De_Teste"));
-        var records = consumer.poll(Duration.ofMillis(100));
-        if(records.isEmpty()){
-            List<Mensagem> listMensagens = new ArrayList<>();
-            Mensagem msgErro= new Mensagem();
-            msgErro.setTextoMensagem("ERRO: Nenhuma msg encontrada");
-            listMensagens.add(msgErro);
-            return listMensagens;
-        }else {
-            List<Mensagem> listMensagensRecebbidas = new ArrayList<>();
-            for (var record : records) {
-                Mensagem msgRecebida = new Mensagem();
-                msgRecebida.setTextoMensagem(record.value());
-                msgRecebida.setIdMensagem(record.key());
-
-            }
-            return listMensagensRecebbidas;
-        }
-    }
 
     private static Properties propertiesListner(){
         var properties = new Properties();
